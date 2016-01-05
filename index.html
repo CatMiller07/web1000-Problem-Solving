@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+   <head>
+	   <title>Suggestion Box</title>
+	   <style>
+		   #btn-dismiss{
+			  margin-left: 93%; 
+		   }
+		   h4{
+			   text-align: center;
+		   }
+		   #suggestion-box{
+			   height : 230px;
+			   width  : 625px;
+			   border :  2px solid black;
+			   background-color: bisque;
+		   }
+		   
+		   input{
+			   margin: 3px;
+			   width: 80%;
+			   padding : 3px;
+		   }
+		    
+		   #lbl-fname, #lbl-lname,#lbl-msg{
+			   padding: 5px;
+			   margin: 5px;
+		   }
+		   
+		   #clear-btn{
+			    position: relative;
+			     height: 12px;
+			     width : 16px; 
+			   margin-top:5px;
+			   margin-bottom: 5px;
+			   float:right;
+			    border :  2px solid black;
+		   }
+		  
+		   .btn {
+			  width : 118px; 
+			  background: #3498db;
+			  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+			  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+			  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+			  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+			  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+			  -webkit-border-radius: 28;
+			  -moz-border-radius: 28;
+			  border-radius: 28px;
+			  font-family: Arial;
+			  color: #ffffff;
+			  font-size: 20px;
+			  padding: 7px 7px 4px 6px;
+			  margin-top: 15px; 
+			  text-decoration: none;
+			}
+            
+		    .btn:hover {
+			  background: #3cb0fd;
+			  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+			  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+			  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+			  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+			  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+			  text-decoration: none;
+			}
+				   </style>
+   </head>
+   <body>
+	    
+	    <div id="suggestion-box">
+		    
+			<h4>Suggestion Box</h4>
+	        <form>
+				
+			    <label id="lbl-fname" for "fname"> First Name:</label>
+				<input id="firstname" type="text" name="fname">
+				
+				<label id="lbl-lname" for "lname">Last Name:</label>
+				<input id="lastname" type="text" name="lname">
+				
+				<label id="lbl-msg" for "msg-text">Suggestion:</label> 
+				<input id="msg-text" type="text" name="message">
+				<input type="hidden" name="serviceName" value="CathyMiller">
+				
+				<div id="submit-btn" class="btn">Submit Form</div>
+				<div id="feedback"></div>
+			</form>
+	    </div>
+	    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script> 
+	   <script>
+	       $(document).ready(function(){
+			   
+			   function postFormDta(formDta){
+				  $.ajax({ 
+						   method:"POST",
+						   url:"http://104.131.17.187:4004/suggestions",
+						   data: formDta ,
+						   success:function(resp,sts,jqXHR){
+							   console.log("form data was posted "+sts);
+							   $("#feedback").html("Thanks for the suggestion!")
+						  },
+						   error:function(resp,sts,jqXHR){
+							   console.log("An Error occurred " + sts);
+						   }
+						 
+					});  
+			   };
+			   
+			   
+			   // initialize
+			   $("#feedback").html("");
+			   
+			  
+			   
+			   $("#submit-btn").click(function(){
+				   
+				   var formData = $("form").serialize();
+			       console.log("my form data "+ formData);  
+			       
+				   postFormDta(formData);
+				    $("firstname").val("");
+				    $("lastname").val("");	
+				    $("msg-text").val("");
+				  	 
+			   })
+			     
+		   })
+	   
+	   </script>
+   </body>	
+</html>
